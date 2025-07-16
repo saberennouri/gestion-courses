@@ -7,23 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 public class CourseResourceService implements ICourseResourceService {
 
     @Autowired
     private CourseResourceRepository courseResourceRepository;
 
-   /* @Override
+    @Override
     public List<CourseResource> getAllResources() {
         return courseResourceRepository.findAll();
-    }*/
-
-    @Override
-    public List<CourseResource> getAllResources(){
-        return courseResourceRepository.findAll();
     }
-
 
     @Override
     public CourseResource addResource(CourseResource resource) {
@@ -35,9 +28,9 @@ public class CourseResourceService implements ICourseResourceService {
         if (courseResourceRepository.existsById(resourceId)) {
             resource.setId(resourceId);
             return courseResourceRepository.save(resource);
+        } else {
+            return null;
         }
-        return null;
-
     }
 
     @Override
@@ -47,6 +40,8 @@ public class CourseResourceService implements ICourseResourceService {
 
     @Override
     public List<CourseResource> getResourcesByCourseId(int courseId) {
-        return courseResourceRepository.findByCourseId(courseId);
+        Course course = new Course();
+        course.setId(courseId);
+        return courseResourceRepository.findByCourse(course);
     }
 }

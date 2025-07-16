@@ -50,7 +50,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<CourseResource> resource;
+    private List<CourseResource> resources;
 
     private String qrCodeURL; // URL to the generated QR code image
 

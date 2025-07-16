@@ -25,9 +25,9 @@ public class CourseResource {
 
     @NotNull(message = "Resource type is required")
     private String resourceType;
-
+    @NotNull(message = "link of video is required")
     private String linkVideo;  // Changed to camelCase
-
+    @NotNull(message = "link of document is required")
     private String linkDocument;  // Changed to camelCase
 
     @NotNull(message = "Description is required")
@@ -35,10 +35,10 @@ public class CourseResource {
     private String description;
 
     @NotNull(message = "Upload date required")
-    private LocalDate uploadDate;  // Changed to LocalDate
+    private java.sql.Date uploadDate;  // Changed to LocalDate
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "courses_id")
     private Course course;
 }

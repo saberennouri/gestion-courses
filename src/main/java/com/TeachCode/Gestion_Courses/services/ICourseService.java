@@ -27,7 +27,7 @@ public interface ICourseService {
 
     Course findById(Long courseId);
 
-    Optional<Course> findById(int courseId);
+
 
     Course enrollStudentInCourse(int courseId, int studentId);
 
@@ -35,7 +35,7 @@ public interface ICourseService {
 
     List<Course> getCoursesByStudent(int studentId);
 
-    List<Map<String, Object>> getEnrolledStudentWithDetails(int courseId);
-
     List<Course> getCoursesByTrainer(Integer userId);
+
+    List<Map<String, Object>> getEnrolledStudentsWithDetails(int courseId);
 }

@@ -13,30 +13,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 @Service
-public abstract class CourseService implements ICourseService {
+public class CourseService implements  ICourseService {
+
     @Autowired
     private CourseRepository courseRepository;
+
     @Autowired
     private AuthServiceClient authServiceClient;
+
     @Override
-    public List<Course> getAllCourses(){return courseRepository.findAll();}
+    public List<Course> getAllCourses() {return courseRepository.findAll();}
+
     @Override
-    public Course addCourse(Course course,Integer trainerId){
+    public Course addCourse(Course course, Integer trainerId) {
         course.setTrainerId(Long.valueOf(trainerId));
         return courseRepository.save(course);
     }
+
     @Override
     public List<Course> searchAllCourses(String searchQuery, CategoryEnum category) {
-
         return courseRepository.searchAllCourses(
-                searchQuery !=null ? searchQuery : "",category
+                searchQuery != null ? searchQuery : "",
+                category
         );
     }
+
     @Override
-    public List<Course> searchAllCoursesByTrainer(String searchQuery, CategoryEnum category,
-                                                  Integer trainerId) {
+    public List<Course> searchAllCoursesByTrainer(String searchQuery, CategoryEnum category, Integer trainerId) {
         return courseRepository.findByTrainerIdAndSearchAll(
                 trainerId,
                 searchQuery != null ? searchQuery : "",
@@ -65,21 +69,16 @@ public abstract class CourseService implements ICourseService {
     }
 
     @Override
-    public void deleteCourse(int courseId) {
-        courseRepository.deleteById(courseId);
-    }
+    public void deleteCourse(int courseId) {courseRepository.deleteById(courseId);}
 
     @Override
-    public Course getCourseById(int courseId) {
-        return courseRepository.findById(courseId).orElse(null);
-    }
-
-    public List<Course> getCourseByTrainer(Integer trainerId) {
+    public Course getCourseById(int courseId) {return courseRepository.findById(courseId).orElse(null);}
+    public List<Course> getCoursesByTrainer(Integer trainerId) {
         return courseRepository.findByTrainerId(trainerId);
     }
 
     @Override
-    public Optional<Course> findById(int courseId) {
+    public Course findById(Long courseId) {
         return courseRepository.findById(courseId);
     }
 
@@ -90,7 +89,6 @@ public abstract class CourseService implements ICourseService {
         course.getStudentIds().add(studentId);
         return courseRepository.save(course);
     }
-
     @Override
     public void removeStudentFromCourse(int courseId, int studentId) {
         Course course = courseRepository.findById(courseId)
@@ -100,7 +98,7 @@ public abstract class CourseService implements ICourseService {
     }
 
     @Override
-    public List<Course> getCourseByStudent(int studentId) {
+    public List<Course> getCoursesByStudent(int studentId) {
         return courseRepository.findByStudentIdsContaining(studentId);
     }
 
@@ -110,9 +108,9 @@ public abstract class CourseService implements ICourseService {
         if (course == null || course.getStudentIds() == null) {
             return Collections.emptyList();
         }
-       return course.getStudentIds().stream()
-               .map(authServiceClient::getStudentById)
-               .collect(Collectors.toList());
-        }
+        return course.getStudentIds().stream()
+                .map(authServiceClient::getStudentById)
+                .collect(Collectors.toList());
+    }
 
 }
