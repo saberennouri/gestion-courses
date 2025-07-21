@@ -2,7 +2,6 @@ package com.TeachCode.Gestion_Courses.repositories;
 
 import com.TeachCode.Gestion_Courses.entities.CategoryEnum;
 import com.TeachCode.Gestion_Courses.entities.Course;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -54,9 +53,9 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     );
 
     @Query("SELECT c FROM Course c WHERE " +
-            "(:trainerId IS NULL OR c.trainerId = :trainerId) AND " +
-            "(LOWER(c.title) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR " +
-            "(LOWER(c.description) LIKE LOWER(CONCAT('%', :searchQuery, '%'))) AND " +
+            "(:trainerId IS NULL OR c.trainerId = :trainerId) AND" +
+            "(LOWER(c.title) LIKE LOWER(CONCAT('%', :searchQuery, '%')) )OR" +
+            "(LOWER(c.description) LIKE LOWER(CONCAT('%', :searchQuery, '%'))) AND" +
             "(:category IS NULL OR c.categoryCourse = :category)")
     Page<Course> findByTrainerIdAndSearch(
             @Param("trainerId") Integer trainerId,
@@ -65,8 +64,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
             Pageable pageable);
 
     @Query("SELECT c FROM Course c WHERE " +
-            ":studentId MEMBER OF c.studentIds AND " +
-            "(LOWER(c.title) LIKE LOWER(CONCAT('%', :searchQuery, '%')) OR " +
+            ":studentId MEMBER OF c.studentIds AND" +
+            "(LOWER(c.title) LIKE LOWER(CONCAT('%', :searchQuery, '%')) )OR " +
             "(LOWER(c.description) LIKE LOWER(CONCAT('%', :searchQuery, '%'))) AND " +
             "(:category IS NULL OR c.categoryCourse = :category)")
     Page<Course> findByStudentIdAndSearch(

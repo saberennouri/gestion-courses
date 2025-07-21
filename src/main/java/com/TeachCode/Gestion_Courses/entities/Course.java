@@ -56,4 +56,12 @@ public class Course {
 
     @ElementCollection
     private Set<Integer> studentIds = new HashSet<>();
+
+    public String getQrCodeUrl() {
+        return this.qrCodeURL;
+    }
+
+    public void setQrCodeUrl(String qrCodeURL) {
+        this.qrCodeURL = qrCodeURL;
+    }
 }
